@@ -295,11 +295,13 @@ class EPD:
         # should be (0x1F) according to standard; 0xAF according to WaveShare master
         self.send_data(0xAF) # KW-BF   KWR-AF    BWROTP 0f
         
+        logging.debug('PLL control frequency setting (100Hz)')
         self.send_command(0x30) # PLL_CONTROL
         self.send_data(0x3A) # 3A 100HZ   29 150Hz 39 200HZ    31 171HZ
     
-        self.send_command(0X50)			#VCOM AND DATA INTERVAL SETTING			
-        self.send_data(0x57)
+        logging.debug('Vcom and data interval setting')
+        self.send_command(0X50) #VCOM AND DATA INTERVAL SETTING
+        self.send_data(0x87)
         
         self.send_command(0x82) # VCM_DC_SETTING_REGISTER
         self.send_data(0x12)
