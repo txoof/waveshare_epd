@@ -167,10 +167,12 @@ class EPD:
         epdconfig.spi_writebyte([data])
         epdconfig.digital_write(self.cs_pin, 1)
         
-    def ReadBusy(self):        
+    #### REVIEW ####
+    # consider making a break/raise after N loops of attempting to release busy status
+    def ReadBusy(self):
         logging.debug("e-Paper busy")
         while(epdconfig.digital_read(self.busy_pin) == 0):      #  0: idle, 1: busy
-            epdconfig.delay_ms(200)                
+            epdconfig.delay_ms(200)
         logging.debug("e-Paper busy release")
 
     def set_lut(self):
@@ -252,15 +254,7 @@ class EPD:
         self.send_command(0xF8)
         self.send_data(0x93)
         self.send_data(0x2A)        
-    
-        logging.debug('power setting')
-        self.send_command(0x01) # POWER_SETTING
-        self.send_data(0x03) # VDS_EN, VDG_EN
-        self.send_data(0x00) # VCOM_HV, VGHL_LV[1], VGHL_LV[0]
-        self.send_data(0x2b) # VDH
-        self.send_data(0x2b) # VDL
-#         self.send_data(0x09) # VDHR 
-        
+            
         
 #         # Power optimization
 #         self.send_command(0xF8)
@@ -276,16 +270,26 @@ class EPD:
 #         self.send_command(0xF8)
 #         self.send_data(0x73)
 #         self.send_data(0x41)
-        
+
+#         logging.debug('power setting')
+#         self.send_command(0x01) # POWER_SETTING
+#         self.send_data(0x03) # VDS_EN, VDG_EN
+#         self.send_data(0x00) # VCOM_HV, VGHL_LV[1], VGHL_LV[0]
+#         self.send_data(0x2b) # VDH
+#         self.send_data(0x2b) # VDL
+#         self.send_data(0x09) # VDHR 
+
+
         
         logging.debug('reset DFV_EN')
         self.send_command(0x16) # PARTIAL_DISPLAY_REFRESH
         self.send_data(0x00)
         
-        
+        logging.debug('power on')
         self.send_command(0x04) # POWER_ON
         self.ReadBusy()
 
+        logging.debug('pannel setting')
         self.send_command(0x00) # PANEL_SETTING
         self.send_data(0xAF) # KW-BF   KWR-AF    BWROTP 0f
         
