@@ -232,7 +232,7 @@ class EPD:
 #         self.send_data(0x17)
         self.send_data(0x04)
     
-        logging.debug('power optimization stage 1-4')
+        logging.debug('power optimization stages 1-4')
         # Power optimization stage 1
         self.send_command(0xF8)
         self.send_data(0x60)
@@ -253,12 +253,13 @@ class EPD:
         self.send_data(0x93)
         self.send_data(0x2A)        
     
+        logging.debug('power setting')
         self.send_command(0x01) # POWER_SETTING
         self.send_data(0x03) # VDS_EN, VDG_EN
         self.send_data(0x00) # VCOM_HV, VGHL_LV[1], VGHL_LV[0]
         self.send_data(0x2b) # VDH
         self.send_data(0x2b) # VDL
-        self.send_data(0x09) # VDHR 
+#         self.send_data(0x09) # VDHR 
         
         
 #         # Power optimization
@@ -276,8 +277,12 @@ class EPD:
 #         self.send_data(0x73)
 #         self.send_data(0x41)
         
+        
+        
         self.send_command(0x16) # PARTIAL_DISPLAY_REFRESH
         self.send_data(0x00)
+        
+        
         self.send_command(0x04) # POWER_ON
         self.ReadBusy()
 
