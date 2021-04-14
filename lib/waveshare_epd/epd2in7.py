@@ -306,19 +306,15 @@ class EPD:
         self.send_command(0x00)
         self.send_command(0xb0)
         
-        # this is in the spec, but does not work properly
-#         logging.debug('VCM_DC setting ')
-#         self.send_command(0x82)
-#         self.send_command(0x12)
-    
+        # order of VCOM and VCM_DC is swapped in spec; must be swapped as shown below
         logging.debug('Vcom and data interval setting')
         self.send_command(0X50) #VCOM AND DATA INTERVAL SETTING
         self.send_data(0x87)
-
-        logging.debug('VCM_DC setting ')        
+        
+        logging.debug('VCM_DC setting ')       
         self.send_command(0x82) # VCM_DC_SETTING_REGISTER
         self.send_data(0x12)
-        
+
         
         self.set_lut()
         
@@ -535,22 +531,24 @@ class EPD:
 #         # pass
         
     def Clear(self, color):
-        self.send_command(0x10)
+        self.send_command(0x10) # start data transmission 1
         for i in range(0, int(self.width * self.height / 8)):
             self.send_data(0xFF)
-        self.send_command(0x13)
+        self.send_command(0x13) # start data transmission 2
         for i in range(0, int(self.width * self.height / 8)):
             self.send_data(0xFF)
-        self.send_command(0x12) 
+        self.send_command(0x12) # display refresh
         self.ReadBusy()
 
     def sleep(self):
-        self.send_command(0X50)
+        logging.info('enter sleep')
+        self.send_command(0X50) # Vcom and data interval setting
         self.send_data(0xf7)
-        self.send_command(0X02)
-        self.send_command(0X07)
-        self.send_data(0xA5)
-        
+        logging.debug('power off')
+        self.send_command(0X02) # power off
+        logging.debug('enter deep sleep')
+        self.send_command(0X07) # deep sleep
+        self.send_data(0xA5) #deep sleep
         epdconfig.delay_ms(2000)
         epdconfig.module_exit()
 ### END OF FILE ###
