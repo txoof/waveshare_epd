@@ -278,7 +278,7 @@ class EPD:
 #         self.send_data(0x41)
         
         
-        
+        logging.debug('reset DFV_EN')
         self.send_command(0x16) # PARTIAL_DISPLAY_REFRESH
         self.send_data(0x00)
         
