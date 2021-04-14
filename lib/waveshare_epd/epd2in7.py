@@ -298,10 +298,18 @@ class EPD:
         logging.debug('PLL control frequency setting (100Hz)')
         self.send_command(0x30) # PLL_CONTROL
         self.send_data(0x3A) # 3A 100HZ   29 150Hz 39 200HZ    31 171HZ
+        
+        logging.debug('resolution setting')
+        self.send_command(0x61)
+        self.send+command(0x01)
+        self.send+command(0x08)
+        self.send+command(0x00)
+        self.send+command(0xb0)
     
         logging.debug('Vcom and data interval setting')
         self.send_command(0X50) #VCOM AND DATA INTERVAL SETTING
         self.send_data(0x87)
+    
         
         self.send_command(0x82) # VCM_DC_SETTING_REGISTER
         self.send_data(0x12)
