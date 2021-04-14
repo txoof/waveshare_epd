@@ -225,13 +225,34 @@ class EPD:
         
         # see pp35: https://www.waveshare.com/w/upload/2/2d/2.7inch-e-paper-Specification.pdf
         
-        logging.debug('boosteer soft start')
+        logging.debug('booster soft start')
         self.send_command(0x06) # BOOSTER_SOFT_START
         self.send_data(0x07)
         self.send_data(0x07)
 #         self.send_data(0x17)
         self.send_data(0x04)
-                
+    
+        logging.debug('power optimization stage 1-4')
+        # Power optimization stage 1
+        self.send_command(0xF8)
+        self.send_data(0x60)
+        self.send_data(0xA5)
+        
+        # Power optimization stage 2
+        self.send_command(0xF8)
+        self.send_data(0x89)
+        self.send_data(0xA5)
+        
+        # Power optimization stage 3
+        self.send_command(0xF8)
+        self.send_data(0x90)
+        self.send_data(0x00)
+        
+        # Power optimization stage 4
+        self.send_command(0xF8)
+        self.send_data(0x93)
+        self.send_data(0x2A)        
+    
         self.send_command(0x01) # POWER_SETTING
         self.send_data(0x03) # VDS_EN, VDG_EN
         self.send_data(0x00) # VCOM_HV, VGHL_LV[1], VGHL_LV[0]
@@ -240,25 +261,8 @@ class EPD:
         self.send_data(0x09) # VDHR 
         
         
-        # Power optimization
-        self.send_command(0xF8)
-        self.send_data(0x60)
-        self.send_data(0xA5)
         
-        # Power optimization
-        self.send_command(0xF8)
-        self.send_data(0x89)
-        self.send_data(0xA5)
-        
-        # Power optimization
-        self.send_command(0xF8)
-        self.send_data(0x90)
-        self.send_data(0x00)
-        
-        # Power optimization
-        self.send_command(0xF8)
-        self.send_data(0x93)
-        self.send_data(0x2A)
+
         
         # Power optimization
         self.send_command(0xF8)
