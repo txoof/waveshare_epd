@@ -289,8 +289,10 @@ class EPD:
         self.send_command(0x04) # POWER_ON
         self.ReadBusy()
 
+
         logging.debug('pannel setting')
         self.send_command(0x00) # PANEL_SETTING
+        # should be (0x1F) according to standard; 0xAF according to WaveShare master
         self.send_data(0xAF) # KW-BF   KWR-AF    BWROTP 0f
         
         self.send_command(0x30) # PLL_CONTROL
