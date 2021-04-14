@@ -305,15 +305,23 @@ class EPD:
         self.send_command(0x08)
         self.send_command(0x00)
         self.send_command(0xb0)
+        
+        # this is in the spec, but does not work properly
+#         logging.debug('VCM_DC setting ')
+#         self.send_command(0x82)
+#         self.send_command(0x12)
     
         logging.debug('Vcom and data interval setting')
         self.send_command(0X50) #VCOM AND DATA INTERVAL SETTING
         self.send_data(0x87)
-    
-        
+
+        logging.debug('VCM_DC setting ')        
         self.send_command(0x82) # VCM_DC_SETTING_REGISTER
         self.send_data(0x12)
+        
+        
         self.set_lut()
+        
         return 0
 
 #     def Init_4Gray(self):
