@@ -243,6 +243,8 @@ class EPD:
 #         self.send_data(0x17)
         self.send_data(0x04)
     
+        # poorly documented -- unclear what this does
+        # see https://github.com/waveshare/e-Paper/issues/155
         logging.debug('power optimization stages 1-4')
         # Power optimization stage 1
         self.send_command(0xF8)
@@ -265,34 +267,18 @@ class EPD:
         self.send_data(0x2A)        
             
         
-#         # Power optimization
-#         self.send_command(0xF8)
-#         self.send_data(0xA0)
-#         self.send_data(0xA5)
+        logging.debug('reset DFV_EN')
+        self.send_command(0x16) # PARTIAL_DISPLAY_REFRESH
+        self.send_data(0x00)
         
-#         # Power optimization
-#         self.send_command(0xF8)
-#         self.send_data(0xA1)
-#         self.send_data(0x00)
-        
-#         # Power optimization
-#         self.send_command(0xF8)
-#         self.send_data(0x73)
-#         self.send_data(0x41)
-
         logging.debug('power setting')
         self.send_command(0x01) # POWER_SETTING
         self.send_data(0x03) # VDS_EN, VDG_EN
         self.send_data(0x00) # VCOM_HV, VGHL_LV[1], VGHL_LV[0]
         self.send_data(0x2b) # VDH
         self.send_data(0x2b) # VDL
-#         self.send_data(0x09) # VDHR 
-
-
+#         self.send_data(0x09) # VDHR -- set voltage for red pixel (uneeded in B&W)
         
-        logging.debug('reset DFV_EN')
-        self.send_command(0x16) # PARTIAL_DISPLAY_REFRESH
-        self.send_data(0x00)
         
         logging.debug('power on')
         self.send_command(0x04) # POWER_ON
