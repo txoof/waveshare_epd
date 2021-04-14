@@ -284,7 +284,13 @@ class EPD:
         self.send_command(0x04) # POWER_ON
         self.ReadBusy()
 
-
+        # 0x16 runs a partial display refresh - see p17 in docs
+        # purpose is unclear -- perhaps wipes display? 
+#         self.send_command(0x16) # PARTIAL_DISPLAY_REFRESH
+#         self.send_data(0x00)
+#         self.send_command(0x04) # POWER_ON
+#         self.ReadBusy()
+        
         logging.debug('pannel setting')
         self.send_command(0x00) # PANEL_SETTING
         # should be (0x1F) according to standard; 0xAF according to WaveShare master
@@ -294,17 +300,17 @@ class EPD:
         self.send_command(0x30) # PLL_CONTROL
         self.send_data(0x3A) # 3A 100HZ   29 150Hz 39 200HZ    31 171HZ
         
-        logging.debug('resolution setting')
+        logging.debug('resolution setting (176x264)')
         self.send_command(0x61)
-        self.send_command(0x01)
-        self.send_command(0x08)
-        self.send_command(0x00)
-        self.send_command(0xb0)
+        self.send_data(0x00) #176
+        self.send_data(0xb0) 
+        self.send_data(0x01) #264
+        self.send_data(0x08)
         
         # order of VCOM and VCM_DC is swapped in spec; must be swapped as shown below
         logging.debug('Vcom and data interval setting')
         self.send_command(0X50) #VCOM AND DATA INTERVAL SETTING
-        self.send_data(0x87)
+        self.send_data(0x57) # 0x57 in original code
         
         logging.debug('VCM_DC setting ')       
         self.send_command(0x82) # VCM_DC_SETTING_REGISTER
