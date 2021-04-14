@@ -216,23 +216,29 @@ class EPD:
 #             self.send_data(self.gray_lut_ww[count])
     
     def init(self):
+        logging.info('init EPD screen')
         if (epdconfig.module_init() != 0):
             return -1
             
         # EPD hardware init start
         self.reset()
         
+        # see pp35: https://www.waveshare.com/w/upload/2/2d/2.7inch-e-paper-Specification.pdf
+        
+        logging.debug('boosteer soft start')
+        self.send_command(0x06) # BOOSTER_SOFT_START
+        self.send_data(0x07)
+        self.send_data(0x07)
+#         self.send_data(0x17)
+        self.send_data(0x04)
+                
         self.send_command(0x01) # POWER_SETTING
         self.send_data(0x03) # VDS_EN, VDG_EN
         self.send_data(0x00) # VCOM_HV, VGHL_LV[1], VGHL_LV[0]
         self.send_data(0x2b) # VDH
         self.send_data(0x2b) # VDL
-#         self.send_data(0x09) # VDHR
+        self.send_data(0x09) # VDHR 
         
-        self.send_command(0x06) # BOOSTER_SOFT_START
-        self.send_data(0x07)
-        self.send_data(0x07)
-        self.send_data(0x17)
         
         # Power optimization
         self.send_command(0xF8)
