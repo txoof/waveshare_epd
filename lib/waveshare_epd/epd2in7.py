@@ -261,23 +261,20 @@ class EPD:
         self.send_data(0x09) # VDHR 
         
         
+#         # Power optimization
+#         self.send_command(0xF8)
+#         self.send_data(0xA0)
+#         self.send_data(0xA5)
         
-
+#         # Power optimization
+#         self.send_command(0xF8)
+#         self.send_data(0xA1)
+#         self.send_data(0x00)
         
-        # Power optimization
-        self.send_command(0xF8)
-        self.send_data(0xA0)
-        self.send_data(0xA5)
-        
-        # Power optimization
-        self.send_command(0xF8)
-        self.send_data(0xA1)
-        self.send_data(0x00)
-        
-        # Power optimization
-        self.send_command(0xF8)
-        self.send_data(0x73)
-        self.send_data(0x41)
+#         # Power optimization
+#         self.send_command(0xF8)
+#         self.send_data(0x73)
+#         self.send_data(0x41)
         
         self.send_command(0x16) # PARTIAL_DISPLAY_REFRESH
         self.send_data(0x00)
