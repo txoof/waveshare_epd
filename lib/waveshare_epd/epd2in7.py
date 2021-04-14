@@ -301,10 +301,10 @@ class EPD:
         
         logging.debug('resolution setting')
         self.send_command(0x61)
-        self.send+command(0x01)
-        self.send+command(0x08)
-        self.send+command(0x00)
-        self.send+command(0xb0)
+        self.send_command(0x01)
+        self.send_command(0x08)
+        self.send_command(0x00)
+        self.send_command(0xb0)
     
         logging.debug('Vcom and data interval setting')
         self.send_command(0X50) #VCOM AND DATA INTERVAL SETTING
